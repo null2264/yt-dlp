@@ -16,10 +16,10 @@ on:
         default: true
         type: boolean
       macos:
-        default: true
+        default: false
         type: boolean
       macos_legacy:
-        default: true
+        default: false
         type: boolean
       windows:
         default: true
