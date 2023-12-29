@@ -241,10 +241,6 @@ class SpankBangPlaylistIE(InfoExtractor):
                 t = '%s of %s' % (related.title(), t, )
             return t
 
-        title = self._html_search_regex(
-            r'<em>([^<]+)</em>\s+playlist\s*<', webpage, 'playlist title',
-            fatal=False) or re.sub(r'(\w)\+(\w)', r'\1 \2', display_id).title()
-
         result = self.playlist_from_matches(self._entries(url, playlist_id, webpage), playlist_id, get_title(), ie=SpankBangIE.ie_key())
         description = self._html_search_meta(('description', 'og:description'), webpage)
         if description:
