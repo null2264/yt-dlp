@@ -1,5 +1,7 @@
 import sys
 
+from .networking.impersonate import ImpersonateTarget
+
 if sys.version_info < (3, 8):
     raise ImportError(
         f'You are using an unsupported version of Python. Only Python versions 3.8 and above are supported by yt-dlp')  # noqa: F541
@@ -387,6 +389,9 @@ def validate_options(opts):
                 raise ValueError(f'unsupported keyring specified for cookies: "{keyring}". '
                                  f'Supported keyrings are: {", ".join(sorted(SUPPORTED_KEYRINGS))}')
         opts.cookiesfrombrowser = (browser_name, profile, keyring, container)
+
+    if opts.impersonate is not None:
+        opts.impersonate = ImpersonateTarget.from_str(opts.impersonate.lower())
 
     # MetadataParser
     def metadataparser_actions(f):
@@ -911,6 +916,7 @@ def parse_options(argv=None):
         'postprocessors': postprocessors,
         'fixup': opts.fixup,
         'source_address': opts.source_address,
+        'impersonate': opts.impersonate,
         'call_home': opts.call_home,
         'sleep_interval_requests': opts.sleep_interval_requests,
         'sleep_interval': opts.sleep_interval,
@@ -979,6 +985,23 @@ def _real_main(argv=None):
         except Exception:
             traceback.print_exc()
             ydl._download_retcode = 100
+
+        if opts.list_impersonate_targets:
+            available_targets = ydl.get_available_impersonate_targets()
+            rows = [
+                [target.client, target.version, target.os, target.os_vers, handler]
+                for target, handler in available_targets
+            ]
+
+            ydl.to_screen('[info] Available impersonate targets')
+            ydl.to_stdout(
+                render_table(['Client', 'Version', 'OS', 'OS Version', 'Source'], rows)
+            )
+            if not available_targets:
+                ydl.to_stdout('You are missing dependencies for impersonation. See the README for more info.')
+            ydl.to_stdout(
+                'If the above table is missing targets, you may be missing dependencies for impersonation.')
+            return
 
         if not actual_use:
             if pre_process:

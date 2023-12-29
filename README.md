@@ -288,6 +288,8 @@ While all the other dependencies are optional, `ffmpeg` and `ffprobe` are highly
 * [**brotli**](https://github.com/google/brotli)\* or [**brotlicffi**](https://github.com/python-hyper/brotlicffi) - [Brotli](https://en.wikipedia.org/wiki/Brotli) content encoding support. Both licensed under MIT <sup>[1](https://github.com/google/brotli/blob/master/LICENSE) [2](https://github.com/python-hyper/brotlicffi/blob/master/LICENSE) </sup>
 * [**websockets**](https://github.com/aaugustin/websockets)\* - For downloading over websocket. Licensed under [BSD-3-Clause](https://github.com/aaugustin/websockets/blob/main/LICENSE)
 * [**requests**](https://github.com/psf/requests)\* - HTTP library. For HTTPS proxy and persistent connections support. Licensed under [Apache-2.0](https://github.com/psf/requests/blob/main/LICENSE)
+* [**curl_cffi**](https://github.com/yifeikong/curl_cffi)\* - Python binding for [curl-impersonate](https://github.com/lwthiker/curl-impersonate). Provides impersonation support for chrome, edge and safari. Licensed under [MIT](https://github.com/yifeikong/curl_cffi/blob/main/LICENSE)
+
 
 ### Metadata
 
@@ -475,6 +477,12 @@ If you fork the project on GitHub, you can run your fork's [build workflow](.git
                                     direct connection
     --socket-timeout SECONDS        Time to wait before giving up, in seconds
     --source-address IP             Client-side IP address to bind to
+    --impersonate [CLIENT[:[VERSION][:[OS][:OS_VERSION]]]]
+                                    Client to impersonate for requests. E.g.
+                                    chrome, chrome:110, chrome::android. Pass in
+                                    an empty string (--impersonate "") to
+                                    impersonate any client.
+    --list-impersonate-targets      List available clients to impersonate.
     -4, --force-ipv4                Make all connections via IPv4
     -6, --force-ipv6                Make all connections via IPv6
     --enable-file-urls              Enable file:// URLs. This is disabled by
